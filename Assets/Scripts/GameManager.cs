@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 
     public bool bPlaying;
 
+
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -23,6 +26,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.S) && !bPlaying)            //Start level function to test level generation - for debug purposes only
+            LevelManager.Instance.StartLevel();
+        }
     }
 }
