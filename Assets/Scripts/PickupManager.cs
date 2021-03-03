@@ -10,15 +10,15 @@ public class PickupManager : MonoBehaviour
     [SerializeField]
     private GameObject pickup;
 
-    void Start() 
+    void Start()
     {
-        pickupPool = PoolObjects(pickup, poolAmount);
+       //pickupPool = PoolObjects(pickup, poolAmount);
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.X))
-        {                        
+        if (Input.GetKeyDown(KeyCode.X))
+        {
             GetPoolObject(pickupPool).SetActive(true);
         }
     }
@@ -26,11 +26,12 @@ public class PickupManager : MonoBehaviour
     public static PickupManager pickupManager;
     void Awake()
     {
-       if(pickupManager == null)
+        if (pickupManager == null)
         {
             pickupManager = this;
-        } else
-            Destroy(this); 
+        }
+        else
+            Destroy(this);
     }
 
     public void PickupCollision(GameObject pickup)
@@ -40,10 +41,10 @@ public class PickupManager : MonoBehaviour
     }
 
     private List<GameObject> PoolObjects(GameObject poolObject, int amount)
-    { 
+    {
         List<GameObject> tempPool = new List<GameObject>();
-        GameObject temp;       
-        for(int i = 0; i < amount; i++)
+        GameObject temp;
+        for (int i = 0; i < amount; i++)
         {
             temp = Instantiate(poolObject);
             temp.SetActive(false);
@@ -54,9 +55,9 @@ public class PickupManager : MonoBehaviour
 
     private GameObject GetPoolObject(List<GameObject> objectPool)
     {
-        foreach(GameObject x in objectPool)
+        foreach (GameObject x in objectPool)
         {
-            if(!x.activeInHierarchy)
+            if (!x.activeInHierarchy)
             {
                 return x;
             }

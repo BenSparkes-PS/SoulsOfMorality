@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
 
     public bool bPlaying;
 
-
-
+    [Header("Menu References")]
+    public GameObject MainMenu;
 
     // Start is called before the first frame update
     void Awake()
@@ -23,11 +23,17 @@ public class GameManager : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        if (Input.GetKeyDown(KeyCode.S) && !bPlaying)            //Start level function to test level generation - for debug purposes only
-            LevelManager.Instance.StartLevel();
+        LeanTween.scale(MainMenu, new Vector3(1, 1, 1), 0.3f);
     }
+
+    public void PlayLevels()
+    {
+        LevelManager.Instance.StartLevel();
+        LeanTween.scale(MainMenu, new Vector3(0, 0, 0), 0.3f);
+    }
+
+
 }
 
