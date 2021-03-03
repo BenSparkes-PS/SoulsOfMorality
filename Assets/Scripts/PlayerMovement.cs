@@ -1,7 +1,4 @@
-﻿using System.Security;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +16,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake() 
     {      
-        playerRb = gameObject.GetComponent<Rigidbody2D>();      
+        playerRb = gameObject.GetComponent<Rigidbody2D>();
+        playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;         
+
     }
 
     void Update()
@@ -50,6 +49,12 @@ public class PlayerMovement : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         isGrounded = true;
+
+        //Death state code needs to be added
+        if(collision.gameObject.tag == "obs")
+        {            
+            DeathManager.deathManager.Died();
+        }
     }
 
     //Applies a jump force depending on if the player is flipped or not
