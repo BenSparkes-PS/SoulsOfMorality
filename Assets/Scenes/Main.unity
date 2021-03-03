@@ -204,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70ef2050851191f4cb75410adf08b41c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  desiredPositionX: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -326,7 +327,7 @@ PrefabInstance:
     - target: {fileID: 3528104191874460585, guid: 74b2d46073a7eaa409aa4bff2b4eb6e3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3528104191874460585, guid: 74b2d46073a7eaa409aa4bff2b4eb6e3,
         type: 3}

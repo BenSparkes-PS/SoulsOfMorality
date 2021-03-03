@@ -47,7 +47,6 @@ public class LevelManager : MonoBehaviour
     public void StartLevel()
     {
         GameManager.Instance.bPlaying = true;       //Sets bool bPlaying to true (If game is in running state)
-        StartCoroutine(CreateNewLevelSection());    //Starts coroutine to instantiate level sections. - Will be changed to when level section is out of screen view.
     }
 
     public void LevelFailed()
@@ -62,54 +61,58 @@ public class LevelManager : MonoBehaviour
     {
         ObstaclesParentBottom = new GameObject("Obstacles Bottom").transform;
         ObstaclesParentTop = new GameObject("Obstacles Top").transform;
-        //Spawn Bottom of level
-        Vector2 SpawnPos = new Vector2(BottomLeftScreenReference.x + (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x / 2), BottomLeftScreenReference.y + (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.y / 2));
-        for (int i = 0; i < 5; i++)                     //Change to spawn enough to cover screen width
+
+
+        CreateNewLevelSection(true);
+        for (int i = 0; i < 6; i++)
         {
-            if (i != 0)
-            {
-                float xPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.x + ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated (Random)
-                float yPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.y;
-                SpawnPos = new Vector2(xPos, yPos);
-            }
-            LevelObstaclesBottom.Add(Instantiate(ObstaclesPrefabs[0], SpawnPos, Quaternion.identity, ObstaclesParentBottom));
+            CreateNewLevelSection(false);
         }
 
-        //Spawn Top of 
-        SpawnPos = new Vector2(TopLeftScreenReference.x + (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x / 2), TopLeftScreenReference.y - (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.y / 2));
-        for (int i = 0; i < 5; i++)
-        {
-            if (i != 0)
-            {
-                float xPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.x + ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated
-                float yPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.y;
-                SpawnPos = new Vector2(xPos, yPos);
-            }
-            LevelObstaclesTop.Add(Instantiate(ObstaclesPrefabs[0], SpawnPos, Quaternion.identity, ObstaclesParentTop));
-        }
     }
-    public IEnumerator CreateNewLevelSection()
+    public void CreateNewLevelSection(bool first)
     {
-        //Destroy First Section
-        while (GameManager.Instance.bPlaying) //Add end while clause for end of level
+        //Add randomness here to ddecide what obstacles
+
+
+
+
+        float xPos;
+        float yPos;
+        Vector2 SpawnPos;
+        //Bottom positioning
+        if (!first)
         {
-            yield return new WaitForSeconds(0.5f);
-            Destroy(LevelObstaclesBottom[0].gameObject);
-            Destroy(LevelObstaclesTop[0].gameObject);
-            LevelObstaclesBottom.RemoveAt(0);
-            LevelObstaclesTop.RemoveAt(0);
-
-            float xPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.x + ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated (Random)
-            float yPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.y;
-            Vector2 SpawnPos = new Vector2(xPos, yPos);
-            LevelObstaclesBottom.Add(Instantiate(ObstaclesPrefabs[0], SpawnPos, Quaternion.identity, ObstaclesParentBottom));
-
+            xPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.x + ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated (Random)
+            yPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.y;
+            SpawnPos = new Vector2(xPos, yPos);
+        }
+        else
+        {
+            SpawnPos = new Vector2(BottomLeftScreenReference.x + (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x / 2), BottomLeftScreenReference.y + (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.y / 2));
+        }
+        LevelObstaclesBottom.Add(Instantiate(ObstaclesPrefabs[0], SpawnPos, Quaternion.identity, ObstaclesParentBottom));
+        LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].GetComponent<LevelSection>().isBottom = true;
+        //Top positioning
+        if (!first)
+        {
             xPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.x + ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated (Random)
             yPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.y;
             SpawnPos = new Vector2(xPos, yPos);
-            LevelObstaclesTop.Add(Instantiate(ObstaclesPrefabs[0], SpawnPos, Quaternion.identity, ObstaclesParentTop));
         }
+        else
+        {
+            SpawnPos = new Vector2(TopLeftScreenReference.x + (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x / 2), TopLeftScreenReference.y - (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.y / 2));
+        }
+        LevelObstaclesTop.Add(Instantiate(ObstaclesPrefabs[0], SpawnPos, Quaternion.identity, ObstaclesParentTop));
+    }
 
+    public void DestroyFirstLevelSection()
+    {
+        Destroy(LevelObstaclesBottom[0].gameObject);
+        Destroy(LevelObstaclesTop[0].gameObject);
+        LevelObstaclesBottom.RemoveAt(0);
+        LevelObstaclesTop.RemoveAt(0);
     }
     #endregion
 }

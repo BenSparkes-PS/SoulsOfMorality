@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Transform target; // Drop the player in the inspector of the camera
+
+    public float desiredPositionX;
+
     void Start()
     {
-        
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void FixedUpdate()
     {
-        
+        desiredPositionX = target.position.x + 7;
+        float smoothedPositionX = Mathf.Lerp(transform.position.x, desiredPositionX, Time.deltaTime * 4f);
+        transform.position = new Vector3(smoothedPositionX, 0, -10);
     }
 }

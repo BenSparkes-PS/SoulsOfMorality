@@ -28,6 +28,6 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S) && !bPlaying)            //Start level function to test level generation - for debug purposes only
             LevelManager.Instance.StartLevel();
-        }
     }
 }
+
