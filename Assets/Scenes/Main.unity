@@ -538,7 +538,7 @@ MonoBehaviour:
   LevelNumber: 0
   PlayerGravity: 100
   PlayerSpeed: 10
-  PlayerJumpHeight: 1500
+  PlayerJumpHeight: 1200
   ObstaclesPrefabs:
   - {fileID: 7489303183678156886, guid: 8663d8ea8d1cb9449be7f0324f0d5076, type: 3}
   - {fileID: 4158978052256044598, guid: 44764e3b4bf828448add204f367dde96, type: 3}
