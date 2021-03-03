@@ -100,7 +100,7 @@ public class LevelManager : MonoBehaviour
         //Bottom positioning
         if (!first)
         {
-            xPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.x + ObstaclesPrefabs[RandPrefabBottom].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated (Random)
+            xPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.x + (LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].GetComponent<Renderer>().bounds.size.x / 2) + ObstaclesPrefabs[RandPrefabBottom].GetComponent<Renderer>().bounds.size.x / 2; 
             yPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.y;
             SpawnPos = new Vector2(xPos, yPos);
         }
@@ -113,7 +113,7 @@ public class LevelManager : MonoBehaviour
         //Top positioning
         if (!first)
         {
-            xPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.x + ObstaclesPrefabs[RandPrefabTop].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated (Random)
+            xPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.x + (LevelObstaclesTop[LevelObstaclesTop.Count - 1].GetComponent<Renderer>().bounds.size.x / 2) + ObstaclesPrefabs[RandPrefabTop].GetComponent<Renderer>().bounds.size.x / 2;
             yPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.y;
             SpawnPos = new Vector2(xPos, yPos);
         }
