@@ -54,6 +54,19 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.tag == "obs")
         {            
             DeathManager.deathManager.Died();
+        }        
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {        
+        if(collider.gameObject.tag == "pickup")
+        {
+            PickupManager.pickupManager.PickupCollision(collider.gameObject);
+        }
+
+        if(collider.gameObject.tag == "portal")
+        {
+
         }
     }
 
