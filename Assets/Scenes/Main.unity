@@ -291,11 +291,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4f0d73207236246a0a5131aad66a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelNumber: 0
   PlayerGravity: 100
   PlayerSpeed: 10
   PlayerJumpHeight: 1500
   ObstaclesPrefabs:
   - {fileID: 1857668340981144112, guid: 5012284926d412043aae62f82d737b0d, type: 3}
+  - {fileID: 6092251914488649029, guid: cd3e644e9f8ee6e4e87b721ab7cdf86c, type: 3}
+  - {fileID: 3723060759555126194, guid: 7394e9f91f603904cb94a50d005bfc9a, type: 3}
   BottomLeftScreenReference: {x: 0, y: 0}
   TopLeftScreenReference: {x: 0, y: 0}
 --- !u!4 &1731072846
@@ -383,6 +386,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AngularDrag
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3528104191874460587, guid: 74b2d46073a7eaa409aa4bff2b4eb6e3,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74b2d46073a7eaa409aa4bff2b4eb6e3, type: 3}

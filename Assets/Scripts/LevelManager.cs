@@ -7,6 +7,8 @@ public class LevelManager : MonoBehaviour
 
     public static LevelManager Instance { get; private set; }
 
+    [Header("Level Info")]
+    public int LevelNumber;
 
     [Header("Level Settings")]
     public float PlayerGravity;
@@ -25,8 +27,8 @@ public class LevelManager : MonoBehaviour
     public Vector2 TopLeftScreenReference;
     private Transform ObstaclesParentBottom;
     private Transform ObstaclesParentTop;
-
-
+    private int LastPrefabBottom;
+    private int LastPrefabTop;
 
     void Awake()
     {
@@ -63,19 +65,34 @@ public class LevelManager : MonoBehaviour
         ObstaclesParentTop = new GameObject("Obstacles Top").transform;
 
 
-        CreateNewLevelSection(true);
+        CreateNewLevelSection(true, 0,0);
         for (int i = 0; i < 6; i++)
         {
-            CreateNewLevelSection(false);
+            CreateNewLevelSection(false, 0,0);
         }
 
     }
-    public void CreateNewLevelSection(bool first)
+    public void CreateNewLevelSection(bool first = false, int RandPrefabBottom = -1, int RandPrefabTop = -1)
     {
-        //Add randomness here to ddecide what obstacles
-
-
-
+        //Add randomness here to decide what obstacles
+        if (RandPrefabBottom == -1)             //If sections not starting sections (plain floor)
+        {
+            RandPrefabBottom = Random.Range(0, ObstaclesPrefabs.Length);
+            while(RandPrefabBottom == LastPrefabBottom)
+            {
+                RandPrefabBottom = Random.Range(0, ObstaclesPrefabs.Length);
+            }
+        }
+        if (RandPrefabTop == -1)
+        {
+            RandPrefabTop = Random.Range(0, ObstaclesPrefabs.Length);
+            while (RandPrefabTop == LastPrefabTop)
+            {
+                RandPrefabTop = Random.Range(0, ObstaclesPrefabs.Length);
+            }
+        }
+        LastPrefabBottom = RandPrefabBottom;
+        LastPrefabTop = RandPrefabTop;
 
         float xPos;
         float yPos;
@@ -83,35 +100,39 @@ public class LevelManager : MonoBehaviour
         //Bottom positioning
         if (!first)
         {
-            xPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.x + ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated (Random)
+            xPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.x + ObstaclesPrefabs[RandPrefabBottom].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated (Random)
             yPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.y;
             SpawnPos = new Vector2(xPos, yPos);
         }
         else
         {
-            SpawnPos = new Vector2(BottomLeftScreenReference.x + (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x / 2), BottomLeftScreenReference.y + (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.y / 2));
+            SpawnPos = new Vector2(BottomLeftScreenReference.x + (ObstaclesPrefabs[RandPrefabBottom].GetComponent<Renderer>().bounds.size.x / 2), BottomLeftScreenReference.y + (ObstaclesPrefabs[RandPrefabBottom].GetComponent<Renderer>().bounds.size.y / 2));
         }
-        LevelObstaclesBottom.Add(Instantiate(ObstaclesPrefabs[0], SpawnPos, Quaternion.identity, ObstaclesParentBottom));
+        LevelObstaclesBottom.Add(Instantiate(ObstaclesPrefabs[RandPrefabBottom], SpawnPos, Quaternion.identity, ObstaclesParentBottom));
         LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].GetComponent<LevelSection>().isBottom = true;
         //Top positioning
         if (!first)
         {
-            xPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.x + ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated (Random)
+            xPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.x + ObstaclesPrefabs[RandPrefabTop].GetComponent<Renderer>().bounds.size.x; //ObstaclePrefab[0] will need changing to the current obstacle being instantiated (Random)
             yPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.y;
             SpawnPos = new Vector2(xPos, yPos);
         }
         else
         {
-            SpawnPos = new Vector2(TopLeftScreenReference.x + (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.x / 2), TopLeftScreenReference.y - (ObstaclesPrefabs[0].GetComponent<Renderer>().bounds.size.y / 2));
+            SpawnPos = new Vector2(TopLeftScreenReference.x + (ObstaclesPrefabs[RandPrefabTop].GetComponent<Renderer>().bounds.size.x / 2), TopLeftScreenReference.y - (ObstaclesPrefabs[RandPrefabTop].GetComponent<Renderer>().bounds.size.y / 2));
         }
-        LevelObstaclesTop.Add(Instantiate(ObstaclesPrefabs[0], SpawnPos, Quaternion.identity, ObstaclesParentTop));
+        LevelObstaclesTop.Add(Instantiate(ObstaclesPrefabs[RandPrefabTop], SpawnPos, Quaternion.identity, ObstaclesParentTop));
+        LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.localScale = new Vector3(LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.localScale.x, -1, 1);
     }
 
-    public void DestroyFirstLevelSection()
+    public void DestroyFirstBottom()
     {
         Destroy(LevelObstaclesBottom[0].gameObject);
-        Destroy(LevelObstaclesTop[0].gameObject);
         LevelObstaclesBottom.RemoveAt(0);
+    }
+    public void DestroyFirstTop()
+    {
+        Destroy(LevelObstaclesTop[0].gameObject);
         LevelObstaclesTop.RemoveAt(0);
     }
     #endregion
