@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
             Jump(flipped);
         }
         //temp grav changer for testing. Will inverse gravity on player
-        if(Input.GetKeyDown(KeyCode.Space))
+       /* if(Input.GetKeyDown(KeyCode.Space))
         {
             flip = true;
         }
@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
         if(flip)
         {
             GravityChange(flipped);
-        }        
+        }    */    
     }
 
     void FixedUpdate()
@@ -66,14 +66,15 @@ public class PlayerMovement : MonoBehaviour
 
         if(collider.gameObject.tag == "portal")
         {
-
+            flipped =!flipped;
+            GravityChange(flipped);
         }
     }
 
     //Applies a jump force depending on if the player is flipped or not
     void Jump(bool isFlipped)
     {
-        if(!isFlipped)
+        if(!PortalManager.portalManager.flipped)
             playerRb.AddForce(new Vector2(0,(jumpForce)), ForceMode2D.Force);
         else   
             playerRb.AddForce(new Vector2(0,(-jumpForce)), ForceMode2D.Force);
@@ -83,16 +84,13 @@ public class PlayerMovement : MonoBehaviour
     //Changes the players gravity when they are flipped
     void GravityChange(bool isFlipped)
     {
-        if(!flipped)
+        if(isFlipped)
         {
             playerRb.gravityScale = -1;
-            flipped = true;
         }
         else
         {
             playerRb.gravityScale = 1;
-            flipped = false;
-        }
-        flip = false;        
+        }     
     }
 }
