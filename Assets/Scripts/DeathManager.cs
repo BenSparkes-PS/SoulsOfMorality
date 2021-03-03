@@ -17,9 +17,12 @@ public class DeathManager: MonoBehaviour
             deathManager = this;
         } else
             Destroy(this);
+
+        deathInfo.enabled = false;
     }
     public void Died()
     {
         deathInfo.enabled = true;
+        GameManager.Instance.bPlaying = false;
     }
 }

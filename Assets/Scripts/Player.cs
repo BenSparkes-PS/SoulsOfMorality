@@ -63,6 +63,12 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         isGrounded = true;
+        //Death state code needs to be added
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            DeathManager.deathManager.Died();
+        }
+
     }
 
     //Applies a jump force depending on if the player is flipped or not
