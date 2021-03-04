@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D playerRb;
     [SerializeField]
     private bool flipped = false, isGrounded = true;
-
+    private GameObject LastCollider;
     void Awake()
     {
         playerRb = gameObject.GetComponent<Rigidbody2D>();
@@ -35,14 +35,14 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate() //Physics update
     {
 
-            if (flipped)
-            {
-                playerRb.AddForce(Vector2.up * LevelManager.Instance.PlayerGravity);          
-            }
-            else
-            {
-                playerRb.AddForce(Vector2.down * LevelManager.Instance.PlayerGravity);   
-            }
+        if (flipped)
+        {
+            playerRb.AddForce(Vector2.up * LevelManager.Instance.PlayerGravity);
+        }
+        else
+        {
+            playerRb.AddForce(Vector2.down * LevelManager.Instance.PlayerGravity);
+        }
         if (GameManager.Instance.bPlaying)
         {
             transform.Translate(Vector2.right * Time.deltaTime * LevelManager.Instance.PlayerSpeed);
@@ -54,9 +54,12 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = true;
         //Death state code needs to be added
-        if (collision.gameObject.tag == "Obstacle")
+        if (GameManager.Instance.bPlaying)
         {
-            DeathManager.deathManager.Died();
+            if (collision.gameObject.tag == "Obstacle")
+            {
+                DeathManager.deathManager.Died();
+            }
         }
 
     }
@@ -68,12 +71,20 @@ public class PlayerMovement : MonoBehaviour
         {
             PickupManager.pickupManager.PickupCollision(collider.gameObject);
         }
-
+        if (collider.gameObject.tag == "Finish")
+        {
+            LevelManager.Instance.LevelComplete();
+        }
         if (collider.gameObject.tag == "Portal")
         {
-            isGrounded = false;
-            GravityChange(flipped);
+            if (LastCollider == null || (collider.gameObject.transform.position != LastCollider.transform.position))
+            {
+                isGrounded = false;
+                GravityChange(flipped);
+                LastCollider = collider.gameObject;
+            }
         }
+
     }
 
 
@@ -90,6 +101,9 @@ public class PlayerMovement : MonoBehaviour
     //Changes the players gravity when they are flipped
     void GravityChange(bool isFlipped)
     {
+        LevelManager.Instance.isFlipped = !LevelManager.Instance.isFlipped;
+        ColourFlipper.Instance.FlipColour(LevelManager.Instance.isFlipped);
         flipped = !flipped;
+
     }
 }

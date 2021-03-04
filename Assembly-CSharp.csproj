@@ -96,13 +96,16 @@
     <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTween.cs" />
     <Compile Include="Assets\LeanTween\Framework\LeanTweenExt.cs" />
+    <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
+    <Compile Include="Assets\Scripts\ColourFlipper.cs" />
     <Compile Include="Assets\Scripts\DeathManager.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\LevelGenerator.cs" />
     <Compile Include="Assets\Scripts\LevelManager.cs" />
     <Compile Include="Assets\Scripts\LevelSection.cs" />
     <Compile Include="Assets\Scripts\MenuManager.cs" />
+    <Compile Include="Assets\Scripts\Obstacle.cs" />
     <Compile Include="Assets\Scripts\PickupManager.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Souls.cs" />

@@ -6,6 +6,7 @@ public class LevelSection : MonoBehaviour
 {
 
     public bool isBottom = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +19,15 @@ public class LevelSection : MonoBehaviour
 
         if (isBottom && (transform.position.x + GetComponent<Renderer>().bounds.size.x) < Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).x)
         {
-            LevelGenerator.Instance.CreateNewLevelSection(false);
+            if (LevelManager.Instance.LevelCompleteSections)
+            {
+                LevelGenerator.Instance.CreateNewLevelSection(false, 0, 0);
+
+            }
+            else
+            {
+                LevelGenerator.Instance.CreateNewLevelSection(false);
+            }
             LevelGenerator.Instance.DestroyFirstBottom();
         }
         else if (!isBottom && (transform.position.x + GetComponent<Renderer>().bounds.size.x) < Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).x)

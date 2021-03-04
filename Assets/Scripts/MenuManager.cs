@@ -12,9 +12,11 @@ public class MenuManager : MonoBehaviour
     public GameObject MainMenu;
     public GameObject RoundOverlay;
     public GameObject LevelFailedMenu;
+    public GameObject LevelCompleteMenu;
 
     private bool _mainMenuActive = false;
     private bool _roundOverlayActive = false;
+    private bool _levelCompleteMenuActive = false;
     private bool _levelFailedMenuActive = false;
 
     // Start is called before the first frame update
@@ -53,6 +55,18 @@ public class MenuManager : MonoBehaviour
             LeanTween.scale(RoundOverlay, new Vector3(1, 1, 1), 0.3f);
         }
         _roundOverlayActive = !_roundOverlayActive;
+    }
+    public void ToggleRoundComplete()
+    {
+        if (_levelCompleteMenuActive)
+        {
+            LeanTween.scale(LevelCompleteMenu, new Vector3(0, 0, 0), 0.3f);
+        }
+        else
+        {
+            LeanTween.scale(LevelCompleteMenu, new Vector3(1, 1, 1), 0.3f);
+        }
+        _levelCompleteMenuActive = !_levelCompleteMenuActive;
     }
     public void ToggleLevelFailedMenu()
     {

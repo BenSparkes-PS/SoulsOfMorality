@@ -8,10 +8,15 @@ public class LevelGenerator : MonoBehaviour
     public static LevelGenerator Instance { get; private set; }
 
     [Header("Obstacle Prefabs")]
-    public GameObject[] ObstaclesPrefabs;
-    public GameObject SoulPrefab;
-    private List<GameObject> LevelObstaclesBottom = new List<GameObject>();
-    private List<GameObject> LevelObstaclesTop = new List<GameObject>();
+    public GameObject[] ObstaclesPrefabsLight;
+    public GameObject[] ObstaclesPrefabsDark;
+    public GameObject GoodSoulPrefab;
+    public GameObject BadSoulPrefab;
+    public GameObject CompleteSectionTrigger;
+    public List<GameObject> LevelObstaclesBottomLight = new List<GameObject>();
+    public List<GameObject> LevelObstaclesTopLight = new List<GameObject>();
+    public List<GameObject> LevelObstaclesBottomDark = new List<GameObject>();
+    public List<GameObject> LevelObstaclesTopDark = new List<GameObject>();
 
     //Level Generation variables
     public Vector2 BottomLeftScreenReference;
@@ -55,23 +60,56 @@ public class LevelGenerator : MonoBehaviour
     {
         bool SoulCanBePlaced = false;
         //Add randomness here to decide what obstacles
+
         if (RandPrefabBottom == -1)             //If sections not starting sections (plain floor)
         {
-            RandPrefabBottom = Random.Range(0, ObstaclesPrefabs.Length);
-            SoulCanBePlaced = true;
+            float RandDouble = Random.Range(0.0f, 1.0f);
+            if (RandDouble < 1)
+                RandPrefabBottom = 0;
+            if (RandDouble < 0.7)
+                RandPrefabBottom = 2;
+            if (RandDouble < 0.5)
+                RandPrefabBottom = 3;
+            if (RandDouble < 0.3)
+                RandPrefabBottom = 1;
+            if (RandDouble < 0.15)
+                RandPrefabBottom = 5;
+            if (RandDouble < 0.1)
+                RandPrefabBottom = 4;
+
             while (RandPrefabBottom == LastPrefabBottom)
             {
-                RandPrefabBottom = Random.Range(0, ObstaclesPrefabs.Length);
+                RandPrefabBottom = Random.Range(0, ObstaclesPrefabsLight.Length - 1);
             }
+            SoulCanBePlaced = true;
+
         }
         if (RandPrefabTop == -1)
         {
-            RandPrefabTop = Random.Range(0, ObstaclesPrefabs.Length);
+            float RandDouble = Random.Range(0.0f, 1.0f);
+            if (RandDouble < 1)
+                RandPrefabTop = 0;
+            if (RandDouble < 0.7)
+                RandPrefabTop = 2;
+            if (RandDouble < 0.5)
+                RandPrefabTop = 3;
+            if (RandDouble < 0.3)
+                RandPrefabTop = 1;
+            if (RandDouble < 0.15)
+                RandPrefabTop = 5;
+            if (RandDouble < 0.1)
+                RandPrefabTop = 4;
             SoulCanBePlaced = true;
             while (RandPrefabTop == LastPrefabTop)
             {
-                RandPrefabTop = Random.Range(0, ObstaclesPrefabs.Length);
+                RandPrefabTop = Random.Range(0, ObstaclesPrefabsLight.Length - 1);
             }
+        }
+
+        if(LastPrefabBottom == 4 || LastPrefabTop == 4 && RandPrefabBottom != 6)
+        {
+            RandPrefabBottom = 0;
+            RandPrefabTop = 0;
         }
 
 
@@ -84,65 +122,92 @@ public class LevelGenerator : MonoBehaviour
         //Bottom positioning
         if (!first)
         {
-            xPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.x + (LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].GetComponent<Renderer>().bounds.size.x / 2) + ObstaclesPrefabs[RandPrefabBottom].GetComponent<Renderer>().bounds.size.x / 2;
-            yPos = LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.position.y;
+            xPos = LevelObstaclesBottomLight[LevelObstaclesBottomLight.Count - 1].transform.position.x + (LevelObstaclesBottomLight[LevelObstaclesBottomLight.Count - 1].GetComponent<Renderer>().bounds.size.x / 2) + ObstaclesPrefabsLight[RandPrefabBottom].GetComponent<Renderer>().bounds.size.x / 2;
+            yPos = LevelObstaclesBottomLight[LevelObstaclesBottomLight.Count - 1].transform.position.y;
             SpawnPos = new Vector2(xPos, yPos);
         }
         else
         {
-            SpawnPos = new Vector2(BottomLeftScreenReference.x + (ObstaclesPrefabs[RandPrefabBottom].GetComponent<Renderer>().bounds.size.x / 2), BottomLeftScreenReference.y + (ObstaclesPrefabs[RandPrefabBottom].GetComponent<Renderer>().bounds.size.y / 2));
+            SpawnPos = new Vector2(BottomLeftScreenReference.x + (ObstaclesPrefabsLight[RandPrefabBottom].GetComponent<Renderer>().bounds.size.x / 2), BottomLeftScreenReference.y + (ObstaclesPrefabsLight[RandPrefabBottom].GetComponent<Renderer>().bounds.size.y / 2));
         }
-        LevelObstaclesBottom.Add(Instantiate(ObstaclesPrefabs[RandPrefabBottom], SpawnPos, Quaternion.identity, ObstaclesParentBottom));
-        LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].GetComponent<LevelSection>().isBottom = true;
+        LevelObstaclesBottomLight.Add(Instantiate(ObstaclesPrefabsLight[RandPrefabBottom], SpawnPos, Quaternion.identity, ObstaclesParentBottom));
+        LevelObstaclesBottomLight[LevelObstaclesBottomLight.Count - 1].GetComponent<LevelSection>().isBottom = true;
+        LevelObstaclesBottomDark.Add(Instantiate(ObstaclesPrefabsDark[RandPrefabBottom], SpawnPos, Quaternion.identity, ObstaclesParentBottom));
+        LevelObstaclesBottomDark[LevelObstaclesBottomDark.Count - 1].GetComponent<LevelSection>().isBottom = true;
         //Top positioning
         if (!first)
         {
-            xPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.x + (LevelObstaclesTop[LevelObstaclesTop.Count - 1].GetComponent<Renderer>().bounds.size.x / 2) + ObstaclesPrefabs[RandPrefabTop].GetComponent<Renderer>().bounds.size.x / 2;
-            yPos = LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.position.y;
+            xPos = LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].transform.position.x + (LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].GetComponent<Renderer>().bounds.size.x / 2) + ObstaclesPrefabsLight[RandPrefabTop].GetComponent<Renderer>().bounds.size.x / 2;
+            yPos = LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].transform.position.y;
             SpawnPos = new Vector2(xPos, yPos);
         }
         else
         {
-            SpawnPos = new Vector2(TopLeftScreenReference.x + (ObstaclesPrefabs[RandPrefabTop].GetComponent<Renderer>().bounds.size.x / 2), TopLeftScreenReference.y - (ObstaclesPrefabs[RandPrefabTop].GetComponent<Renderer>().bounds.size.y * 2));
+            SpawnPos = new Vector2(TopLeftScreenReference.x + (ObstaclesPrefabsLight[RandPrefabTop].GetComponent<Renderer>().bounds.size.x / 2), TopLeftScreenReference.y - (ObstaclesPrefabsLight[RandPrefabTop].GetComponent<Renderer>().bounds.size.y * 2));
         }
-        LevelObstaclesTop.Add(Instantiate(ObstaclesPrefabs[RandPrefabTop], SpawnPos, Quaternion.identity, ObstaclesParentTop));
-        LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.localScale = new Vector3(LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.localScale.x, -1, 1);
+        LevelObstaclesTopLight.Add(Instantiate(ObstaclesPrefabsLight[RandPrefabTop], SpawnPos, Quaternion.identity, ObstaclesParentTop));
+        LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].transform.localScale = new Vector3(LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].transform.localScale.x, -1, 1);
+        LevelObstaclesTopDark.Add(Instantiate(ObstaclesPrefabsDark[RandPrefabTop], SpawnPos, Quaternion.identity, ObstaclesParentTop));
+        LevelObstaclesTopDark[LevelObstaclesTopDark.Count - 1].transform.localScale = new Vector3(LevelObstaclesTopDark[LevelObstaclesTopDark.Count - 1].transform.localScale.x, -1, 1);
+
+
+        if (LevelManager.Instance.isFlipped)
+        {
+            LevelObstaclesBottomLight[LevelObstaclesBottomLight.Count - 1].SetActive(false);
+            LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].SetActive(false);
+        }
+        else
+        {
+            LevelObstaclesBottomDark[LevelObstaclesBottomDark.Count - 1].SetActive(false);
+            LevelObstaclesTopDark[LevelObstaclesTopDark.Count - 1].SetActive(false);
+        }
+
+
+
         if (SoulCanBePlaced)
         {
             //Soul Pickup Spawning
             float DoSpawnSoul = Random.Range(0.0f, 1.0f);
             float SoulType = Random.Range(0.0f, 1.0f);
             GameObject NewSoul;
-            if (DoSpawnSoul > 0.6f && LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.Find("SoulSpawnPoint"))
+            if (DoSpawnSoul > 0.6f && LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].transform.Find("SoulSpawnPoint"))
             {
-                NewSoul = Instantiate(SoulPrefab, LevelObstaclesTop[LevelObstaclesTop.Count - 1].transform.Find("SoulSpawnPoint").position, Quaternion.identity, CollectablesParent);
                 if (SoulType > 0.5f)
                 {
+                    NewSoul = Instantiate(GoodSoulPrefab, LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].transform.Find("SoulSpawnPoint").position, Quaternion.identity, CollectablesParent);
                     NewSoul.GetComponent<Souls>().SoulType = 1;
                 }
+                else
+                    Instantiate(BadSoulPrefab, LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].transform.Find("SoulSpawnPoint").position, Quaternion.identity, CollectablesParent);
             }
             DoSpawnSoul = Random.Range(0.0f, 1.0f);
             SoulType = Random.Range(0.0f, 1.0f);
-            if (DoSpawnSoul > 0.6f && LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.Find("SoulSpawnPoint"))
+            if (DoSpawnSoul > 0.6f && LevelObstaclesBottomLight[LevelObstaclesBottomLight.Count - 1].transform.Find("SoulSpawnPoint"))
             {
-                NewSoul = Instantiate(SoulPrefab, LevelObstaclesBottom[LevelObstaclesBottom.Count - 1].transform.Find("SoulSpawnPoint").position, Quaternion.identity, CollectablesParent);
                 if (SoulType > 0.5f)
                 {
+                    NewSoul = Instantiate(GoodSoulPrefab, LevelObstaclesBottomLight[LevelObstaclesBottomLight.Count - 1].transform.Find("SoulSpawnPoint").position, Quaternion.identity, CollectablesParent);
                     NewSoul.GetComponent<Souls>().SoulType = 1;
                 }
+                else
+                    Instantiate(BadSoulPrefab, LevelObstaclesBottomLight[LevelObstaclesBottomLight.Count - 1].transform.Find("SoulSpawnPoint").position, Quaternion.identity, CollectablesParent);
             }
         }
     }
 
     public void DestroyFirstBottom()
     {
-        Destroy(LevelObstaclesBottom[0].gameObject);
-        LevelObstaclesBottom.RemoveAt(0);
+        Destroy(LevelObstaclesBottomLight[0].gameObject);
+        LevelObstaclesBottomLight.RemoveAt(0);
+        Destroy(LevelObstaclesBottomDark[0].gameObject);
+        LevelObstaclesBottomDark.RemoveAt(0);
     }
     public void DestroyFirstTop()
     {
-        Destroy(LevelObstaclesTop[0].gameObject);
-        LevelObstaclesTop.RemoveAt(0);
+        Destroy(LevelObstaclesTopLight[0].gameObject);
+        LevelObstaclesTopLight.RemoveAt(0);
+        Destroy(LevelObstaclesTopDark[0].gameObject);
+        LevelObstaclesTopDark.RemoveAt(0);
     }
 
     public void DestroyLevel()
@@ -150,7 +215,9 @@ public class LevelGenerator : MonoBehaviour
         Destroy(ObstaclesParentBottom.gameObject);
         Destroy(ObstaclesParentTop.gameObject);
         Destroy(CollectablesParent.gameObject);
-        LevelObstaclesBottom.Clear();
-        LevelObstaclesTop.Clear();
+        LevelObstaclesBottomLight.Clear();
+        LevelObstaclesBottomDark.Clear();
+        LevelObstaclesTopLight.Clear();
+        LevelObstaclesTopDark.Clear();
     }
 }
