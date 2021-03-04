@@ -361,7 +361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &734010556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,12 +374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8961e676983427c48a067410846d57cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  jumpForce: 300
-  gravity: 0
-  flipped: 0
-  flip: 0
-  isGrounded: 1
 --- !u!61 &734010557
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -716,6 +710,7 @@ GameObject:
   - component: {fileID: 927578899}
   - component: {fileID: 927578898}
   - component: {fileID: 927578897}
+  - component: {fileID: 927578900}
   m_Layer: 0
   m_Name: Obstacle
   m_TagString: obs
@@ -740,14 +735,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.2, y: 0.2}
+    oldSize: {x: 5.12, y: 5.12}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.16}
+  m_Size: {x: 5, y: 5}
   m_EdgeRadius: 0
 --- !u!212 &927578898
 SpriteRenderer:
@@ -788,7 +783,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: c4c548a339b4d41a590928c0c98934a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -807,12 +802,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 927578896}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.79, y: 0.39, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 10}
+  m_LocalPosition: {x: 16.79, y: 0.14, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &927578900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927578896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b26de036bf56adb48b2923520a77a4c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleType: 1
+  sawMoveDistance: -4
+  sawMoveTime: 0.6
+  sawSpinAmount: 720
+  sawSpinTime: 0.6
 --- !u!1 &1176873194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,12 +1044,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8961e676983427c48a067410846d57cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  jumpForce: 300
-  gravity: 0
-  flipped: 0
-  flip: 0
-  isGrounded: 1
 --- !u!61 &1495003086
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1450,7 +1456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbef8b40f1962c84ca376457219c07c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathInfo: {fileID: 1208806775}
+  deathInfo: {fileID: 0}
 --- !u!4 &1803124374
 Transform:
   m_ObjectHideFlags: 0
@@ -1492,7 +1498,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb4b2924944d8749aae8b0ab495851e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flipped: 0
 --- !u!1001 &2214883788765603670
 PrefabInstance:
   m_ObjectHideFlags: 0
