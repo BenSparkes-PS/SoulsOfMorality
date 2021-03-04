@@ -18,12 +18,12 @@ public class LevelSection : MonoBehaviour
 
         if (isBottom && (transform.position.x + GetComponent<Renderer>().bounds.size.x) < Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).x)
         {
-            LevelManager.Instance.CreateNewLevelSection(false);
-            LevelManager.Instance.DestroyFirstBottom();
+            LevelGenerator.Instance.CreateNewLevelSection(false);
+            LevelGenerator.Instance.DestroyFirstBottom();
         }
         else if (!isBottom && (transform.position.x + GetComponent<Renderer>().bounds.size.x) < Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).x)
         {
-            LevelManager.Instance.DestroyFirstTop();
+            LevelGenerator.Instance.DestroyFirstTop();
         }
     }
 }

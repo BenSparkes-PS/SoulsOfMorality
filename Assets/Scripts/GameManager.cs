@@ -9,8 +9,6 @@ public class GameManager : MonoBehaviour
 
     public bool bPlaying;
 
-    [Header("Menu References")]
-    public GameObject MainMenu;
 
     // Start is called before the first frame update
     void Awake()
@@ -25,13 +23,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        LeanTween.scale(MainMenu, new Vector3(1, 1, 1), 0.3f);
     }
 
     public void PlayLevels()
     {
+        MenuManager.Instance.ToggleMainMenu();
         LevelManager.Instance.StartLevel();
-        LeanTween.scale(MainMenu, new Vector3(0, 0, 0), 0.3f);
     }
 
 

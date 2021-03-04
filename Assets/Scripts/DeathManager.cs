@@ -24,9 +24,8 @@ public class DeathManager : MonoBehaviour
     {
 
         //SAVE / GET SCORE INFO HERE AND SET ON DEATH INFO
-        LeanTween.scale(GameObject.Find("RoundOverlay"), new Vector3(0, 0, 0), 0.3f);
-        LeanTween.scale(deathInfo, new Vector3(1, 1, 1), 0.3f);
-        LeanTween.moveLocalY(Camera.main.transform.gameObject, Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.width * 1.5f, 0)).y, 0.5f);
+        MenuManager.Instance.ToggleLevelFailedMenu();
+        MenuManager.Instance.ToggleRoundOverlay();
         GameManager.Instance.bPlaying = false;
     }
 }
