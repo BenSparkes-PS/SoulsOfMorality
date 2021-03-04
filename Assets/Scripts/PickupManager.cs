@@ -1,27 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PickupManager : MonoBehaviour
 {
+    public int playerPickupCount = 0;
     [SerializeField]
-    private int playerPickupCount = 0, poolAmount = 10;
+    private int poolAmount = 10;
     private List<GameObject> pickupPool;
     [SerializeField]
     private GameObject pickup;
-
-    void Start()
-    {
-       //pickupPool = PoolObjects(pickup, poolAmount);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            GetPoolObject(pickupPool).SetActive(true);
-        }
-    }
 
     public static PickupManager pickupManager;
     void Awake()
@@ -35,8 +24,16 @@ public class PickupManager : MonoBehaviour
     }
 
     public void PickupCollision(GameObject pickup)
-    {
-        playerPickupCount++;
+    {        
+        Souls soulsInstance = pickup.GetComponent<Souls>();
+        if(soulsInstance != null)
+        {
+            if(soulsInstance.SoulType == 0)
+                playerPickupCount++;
+            else
+                playerPickupCount--;
+            playerPickupCount = Mathf.Clamp(playerPickupCount, -5,5);
+        }
         pickup.SetActive(false);
     }
 
