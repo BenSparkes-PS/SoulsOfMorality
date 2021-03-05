@@ -1310,7 +1310,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3185,6 +3185,7 @@ MonoBehaviour:
   PlayerJumpHeight: 1200
   PlayerPrefab: {fileID: 3528104191874460586, guid: 74b2d46073a7eaa409aa4bff2b4eb6e3,
     type: 3}
+  Player: {fileID: 0}
   isFlipped: 0
 --- !u!4 &1731072846
 Transform:
@@ -3227,7 +3228,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPickupCount: 0
   poolAmount: 10
-  pickup: {fileID: 2576251758393119093, guid: 83e72afe0bacc414690cef3f07515812, type: 3}
+  _currentPlayerSprite: {fileID: 0}
+  spriteNeutral: {fileID: 21300000, guid: 1c887dff2a6184541ad5e029f17f4cf2, type: 3}
+  spriteGood: {fileID: 21300000, guid: 95af1836272eabb49b3263ec081cb911, type: 3}
+  spriteEvil: {fileID: 21300000, guid: aa1f3d2399ff5ee488d7f300dd8fb3d2, type: 3}
 --- !u!114 &1731072849
 MonoBehaviour:
   m_ObjectHideFlags: 0

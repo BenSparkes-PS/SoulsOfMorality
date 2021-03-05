@@ -50,10 +50,10 @@ public class PickupManager : MonoBehaviour
             playerPickupCount = Mathf.Clamp(playerPickupCount, -5,5);
         }
 
-        if(playerPickupCount >= -2)
+        if(playerPickupCount <= -2)
         {
             _currentPlayerSprite.sprite = spriteGood;
-        }else if(playerPickupCount <= 2)
+        }else if(playerPickupCount >= 2)
         {
             _currentPlayerSprite.sprite = spriteEvil;
         }else
