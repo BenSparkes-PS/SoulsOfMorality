@@ -12,7 +12,6 @@ public class LevelGenerator : MonoBehaviour
     public GameObject[] ObstaclesPrefabsDark;
     public GameObject GoodSoulPrefab;
     public GameObject BadSoulPrefab;
-    public GameObject CompleteSectionTrigger;
     public List<GameObject> LevelObstaclesBottomLight = new List<GameObject>();
     public List<GameObject> LevelObstaclesTopLight = new List<GameObject>();
     public List<GameObject> LevelObstaclesBottomDark = new List<GameObject>();
@@ -106,12 +105,19 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        if(LastPrefabBottom == 4 || LastPrefabTop == 4 && RandPrefabBottom != 6)
+        if((LastPrefabBottom == 4 || LastPrefabTop == 4) && RandPrefabBottom != 6)
         {
             RandPrefabBottom = 0;
             RandPrefabTop = 0;
         }
-
+        if(RandPrefabBottom == 4)
+        {
+            RandPrefabTop = 0;
+        }
+        if (RandPrefabTop == 4)
+        {
+            RandPrefabBottom = 0;
+        }
 
         LastPrefabBottom = RandPrefabBottom;
         LastPrefabTop = RandPrefabTop;

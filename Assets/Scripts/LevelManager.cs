@@ -83,6 +83,8 @@ public class LevelManager : MonoBehaviour
 
     public void RestartLevel(GameObject LevelFailedMenu)
     {
+        LevelTime = 10 + (LevelNumber * 5);
+        PlayerSpeed = 10 + (LevelNumber / 4);
         LevelTimer = 0;
         _seconds = 0;
         LevelGenerator.Instance.DestroyLevel();

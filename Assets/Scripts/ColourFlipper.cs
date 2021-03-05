@@ -6,6 +6,8 @@ public class ColourFlipper : MonoBehaviour
 {
     public static ColourFlipper Instance { get; private set; }
 
+    public GameObject EvilBackground;
+    public GameObject GoodBackground;
 
     void Awake()
     {
@@ -35,6 +37,9 @@ public class ColourFlipper : MonoBehaviour
             {
                 section.SetActive(true);
             }
+            EvilBackground.transform.localPosition = new Vector3(EvilBackground.transform.position.x, EvilBackground.transform.position.y, 0);
+            GoodBackground.transform.localPosition = new Vector3(EvilBackground.transform.position.x, EvilBackground.transform.position.y, 1);
+
         }
         else
         {
@@ -54,6 +59,8 @@ public class ColourFlipper : MonoBehaviour
             {
                 section.SetActive(false);
             }
+            EvilBackground.transform.localPosition = new Vector3(EvilBackground.transform.position.x, EvilBackground.transform.position.y, 1);
+            GoodBackground.transform.localPosition = new Vector3(EvilBackground.transform.position.x, EvilBackground.transform.position.y, 0);
         }
     }
 }
