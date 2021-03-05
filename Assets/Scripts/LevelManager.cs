@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
     private float LevelTime;
 
     public GameObject PlayerPrefab;
-    private GameObject Player;
+    public GameObject Player;
 
     public bool isFlipped = false;
 

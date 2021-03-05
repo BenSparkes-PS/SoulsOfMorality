@@ -10,8 +10,11 @@ public class PickupManager : MonoBehaviour
     private int poolAmount = 10;
     private List<GameObject> pickupPool;
     [SerializeField]
-    private GameObject pickup;
+    //private GameObject pickup;
 
+    private SpriteRenderer _currentPlayerSprite;
+    [SerializeField]
+    private Sprite spriteNeutral, spriteGood, spriteEvil;
     public static PickupManager pickupManager;
     void Awake()
     {
@@ -23,9 +26,21 @@ public class PickupManager : MonoBehaviour
             Destroy(this);
     }
 
+    void Start() 
+    {
+        if(spriteNeutral == null || spriteGood == null || spriteEvil == null)
+        {
+            Debug.LogError("Unassigned Sprites on PickupManager!");
+        }
+    }
+
     public void PickupCollision(GameObject pickup)
-    {        
+    {
         Souls soulsInstance = pickup.GetComponent<Souls>();
+        if(_currentPlayerSprite == null)
+        {
+            _currentPlayerSprite = LevelManager.Instance.Player.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        }        
         if(soulsInstance != null)
         {
             if(soulsInstance.SoulType == 0)
@@ -34,6 +49,18 @@ public class PickupManager : MonoBehaviour
                 playerPickupCount--;
             playerPickupCount = Mathf.Clamp(playerPickupCount, -5,5);
         }
+
+        if(playerPickupCount >= -2)
+        {
+            _currentPlayerSprite.sprite = spriteGood;
+        }else if(playerPickupCount <= 2)
+        {
+            _currentPlayerSprite.sprite = spriteEvil;
+        }else
+        {
+            _currentPlayerSprite.sprite = spriteNeutral;
+        }
+
         pickup.SetActive(false);
     }
 
