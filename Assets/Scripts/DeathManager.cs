@@ -23,6 +23,8 @@ public class DeathManager : MonoBehaviour
     {
 
         //SAVE / GET SCORE INFO HERE AND SET ON DEATH INFO
+        AudioManager.Instance.PlayDeathSound();
+        AudioManager.Instance.ToggleRoundBackground();
         MenuManager.Instance.ToggleLevelFailedMenu();
         MenuManager.Instance.ToggleRoundOverlay();
         GameManager.Instance.bPlaying = false;

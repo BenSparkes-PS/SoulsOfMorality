@@ -101,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
     //Changes the players gravity when they are flipped
     void GravityChange(bool isFlipped)
     {
+        AudioManager.Instance.PlayPortal();
         LevelManager.Instance.isFlipped = !LevelManager.Instance.isFlipped;
         ColourFlipper.Instance.FlipColour(LevelManager.Instance.isFlipped);
         flipped = !flipped;

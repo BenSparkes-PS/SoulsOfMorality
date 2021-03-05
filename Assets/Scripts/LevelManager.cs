@@ -59,6 +59,7 @@ public class LevelManager : MonoBehaviour
         LevelTimer = 0;
         _seconds = 0;
         Player = Instantiate(PlayerPrefab);
+        AudioManager.Instance.ToggleRoundBackground();
         LevelGenerator.Instance.GenerateLevel(); //Instantiates the level on start.
         MenuManager.Instance.ToggleRoundOverlay();
         GameManager.Instance.bPlaying = true;       //Sets bool bPlaying to true (If game is in running state)
@@ -67,6 +68,7 @@ public class LevelManager : MonoBehaviour
     public void StartNextLevel()
     {
         MenuManager.Instance.ToggleRoundComplete();
+        AudioManager.Instance.ToggleRoundBackground();
         LevelTime = 10 + (LevelNumber * 5);
         PlayerSpeed = 10 + (LevelNumber / 4);
         LevelCompleteSections = false;
@@ -74,6 +76,7 @@ public class LevelManager : MonoBehaviour
     }
     public void LevelComplete()
     {
+        AudioManager.Instance.ToggleRoundBackground();
         LevelTimer = 0;
         _seconds = 0;
         LevelNumber++;
@@ -87,6 +90,7 @@ public class LevelManager : MonoBehaviour
         PlayerSpeed = 10 + (LevelNumber / 4);
         LevelTimer = 0;
         _seconds = 0;
+        _RunComplete = false;
         LevelGenerator.Instance.DestroyLevel();
         Destroy(Player);
         MenuManager.Instance.ToggleLevelFailedMenu();
