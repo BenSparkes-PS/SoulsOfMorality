@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     private int _seconds;
     private bool _RunComplete = false;
     public bool LevelCompleteSections;
-
+    private bool RoundInfoCount = false;
     [Header("Level Settings")]
     public float PlayerGravity;
     public float PlayerSpeed;
@@ -52,6 +52,11 @@ public class LevelManager : MonoBehaviour
             LevelCompleteSections = true;
             _RunComplete = true;
         }
+
+        if (RoundInfoCount)
+        {
+            MenuManager.Instance.UpdateRoundOverlay(_seconds * 100, LevelNumber, _seconds);
+        }
     }
 
     public void StartLevel()
@@ -64,6 +69,7 @@ public class LevelManager : MonoBehaviour
         MenuManager.Instance.ToggleRoundOverlay();
         GameManager.Instance.bPlaying = true;       //Sets bool bPlaying to true (If game is in running state)
         LevelCompleteSections = false;
+        RoundInfoCount = true;
     }
     public void StartNextLevel()
     {
@@ -73,11 +79,13 @@ public class LevelManager : MonoBehaviour
         PlayerSpeed = 10 + (LevelNumber / 4);
         LevelCompleteSections = false;
         _RunComplete = false;
+        RoundInfoCount = true;
     }
     public void LevelComplete()
     {
         AudioManager.Instance.ToggleRoundBackground();
         LevelTimer = 0;
+        RoundInfoCount = false;
         _seconds = 0;
         LevelNumber++;
         MenuManager.Instance.ToggleRoundComplete();

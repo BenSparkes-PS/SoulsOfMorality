@@ -149,7 +149,7 @@ public class LevelGenerator : MonoBehaviour
         }
         else
         {
-            SpawnPos = new Vector2(TopLeftScreenReference.x + (ObstaclesPrefabsLight[RandPrefabTop].GetComponent<Renderer>().bounds.size.x / 2), TopLeftScreenReference.y - (ObstaclesPrefabsLight[RandPrefabTop].GetComponent<Renderer>().bounds.size.y * 2));
+            SpawnPos = new Vector2(TopLeftScreenReference.x + (ObstaclesPrefabsLight[RandPrefabTop].GetComponent<Renderer>().bounds.size.x / 2), TopLeftScreenReference.y - (ObstaclesPrefabsLight[RandPrefabTop].GetComponent<Renderer>().bounds.size.y * 1.5f));
         }
         LevelObstaclesTopLight.Add(Instantiate(ObstaclesPrefabsLight[RandPrefabTop], SpawnPos, Quaternion.identity, ObstaclesParentTop));
         LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].transform.localScale = new Vector3(LevelObstaclesTopLight[LevelObstaclesTopLight.Count - 1].transform.localScale.x, -1, 1);

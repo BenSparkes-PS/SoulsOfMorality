@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
 
@@ -13,6 +13,7 @@ public class MenuManager : MonoBehaviour
     public GameObject RoundOverlay;
     public GameObject LevelFailedMenu;
     public GameObject LevelCompleteMenu;
+    public Text[] RoundOverlayTexts;
 
     private bool _mainMenuActive = false;
     private bool _roundOverlayActive = false;
@@ -67,6 +68,13 @@ public class MenuManager : MonoBehaviour
             LeanTween.scale(LevelCompleteMenu, new Vector3(1, 1, 1), 0.3f);
         }
         _levelCompleteMenuActive = !_levelCompleteMenuActive;
+    }
+    public void UpdateRoundOverlay(float score, int level, int seconds)
+    {
+        RoundOverlayTexts[0].text = score.ToString();
+        RoundOverlayTexts[1].text = level.ToString();
+        RoundOverlayTexts[2].text = seconds.ToString();
+
     }
     public void ToggleLevelFailedMenu()
     {
